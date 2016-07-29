@@ -1,0 +1,22 @@
+{
+    "name": "pdfbucket/pdfbucket",
+    "description": "PDFBucket module allows you to integrate easily with the PDFBucket service",
+    "keywords": ["pdf", "html2pdf"],
+    "homepage": "https://github.com/pdfbucket/pdfbucket-php",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "PDFBucket Team",
+            "homepage": "https://www.pdfbucket.io/"
+        }
+    ],
+    "require": {
+        "php": ">=5.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4|~5"
+    },
+    "autoload": {
+        "classmap": ["src/"]
+    }
+}
