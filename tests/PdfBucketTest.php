@@ -2,6 +2,24 @@
 
 class PdfBucketTest extends PHPUnit_Framework_TestCase
 {
+    private function assertValidApiEndpoint($parsedUrl, $sourceUrl, $queryString)
+    {
+        $this->assertFalse(empty($sourceUrl));
+        $this->assertFalse(empty($parsedUrl));
+        $this->assertEquals('https', $parsedUrl['scheme']);
+        $this->assertEquals($this->apiHost, $parsedUrl['host']);
+        $this->assertEquals('/api/convert', $parsedUrl['path']);
+        $this->assertFalse(empty($queryString));
+    }
+
+    private function assertValidApiParams($methodParams, $urlParams)
+    {
+        $this->assertEquals($methodParams['orientation'], $urlParams['orientation']);
+        $this->assertEquals($methodParams['pageSize'], $urlParams['page_size']);
+        $this->assertEquals($methodParams['margin'], $urlParams['margin']);
+        $this->assertEquals($methodParams['zoom'], $urlParams['zoom']);
+    }
+
     public function setUp()
     {
         $this->apiKey = '635FBFIB3RL5BG68KEEC7HDA6N3I7PV2';
@@ -58,17 +76,9 @@ class PdfBucketTest extends PHPUnit_Framework_TestCase
         $queryString = $parsedUrl['query'];
         parse_str($queryString, $requestOptions);
 
-        $this->assertFalse(empty($encryptedUrl));
-        $this->assertFalse(empty($parsedUrl));
-        $this->assertEquals('https', $parsedUrl['scheme']);
-        $this->assertEquals($this->apiHost, $parsedUrl['host']);
-        $this->assertEquals('/api/convert', $parsedUrl['path']);
-        $this->assertFalse(empty($queryString));
+        $this->assertValidApiEndpoint($parsedUrl, $encryptedUrl, $queryString);
         $this->assertFalse(empty($requestOptions['encrypted_uri']));
-        $this->assertEquals($options['orientation'], $requestOptions['orientation']);
-        $this->assertEquals($options['pageSize'], $requestOptions['page_size']);
-        $this->assertEquals($options['margin'], $requestOptions['margin']);
-        $this->assertEquals($options['zoom'], $requestOptions['zoom']);
+        $this->assertValidApiParams($options, $requestOptions);
     }
 
     public function testGeneratePlainUrl()
@@ -87,17 +97,9 @@ class PdfBucketTest extends PHPUnit_Framework_TestCase
         $queryString = $parsedUrl['query'];
         parse_str($queryString, $requestOptions);
 
-        $this->assertFalse(empty($plainUrl));
-        $this->assertFalse(empty($parsedUrl));
-        $this->assertEquals('https', $parsedUrl['scheme']);
-        $this->assertEquals($this->apiHost, $parsedUrl['host']);
-        $this->assertEquals('/api/convert', $parsedUrl['path']);
-        $this->assertFalse(empty($queryString));
+        $this->assertValidApiEndpoint($parsedUrl, $plainUrl, $queryString);
         $this->assertEquals($options['uri'], $requestOptions['uri']);
-        $this->assertEquals($options['orientation'], $requestOptions['orientation']);
-        $this->assertEquals($options['pageSize'], $requestOptions['page_size']);
-        $this->assertEquals($options['margin'], $requestOptions['margin']);
-        $this->assertEquals($options['zoom'], $requestOptions['zoom']);
+        $this->assertValidApiParams($options, $requestOptions);
     }
 
     /**
